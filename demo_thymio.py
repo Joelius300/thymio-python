@@ -71,7 +71,7 @@ if __name__ == "__main__":
     print(f"native functions: {th.native_functions(id)[0]}")
 
     # get a variable
-    th[id]["prox.horizontal"]
+    print(f'prox.horizontal: {th[id]["prox.horizontal"]}')
 
     # set a variable (scalar or array)
     th[id]["leds.top"] = [0, 0, 32]
@@ -79,6 +79,7 @@ if __name__ == "__main__":
     # set a function called after new variable values have been fetched
     prox_prev = 0
     done = False
+
     def obs(node_id):
         global prox_prev, done
         prox = (th[node_id]["prox.horizontal"][5] - th[node_id]["prox.horizontal"][2]) // 10
