@@ -10,14 +10,14 @@ Assembler for Aseba VM bytecode
 Author: Yves Piguet, EPFL
 """
 
-import thymiodirect
+from .connection import RemoteNode
 import re
 from typing import Callable, Dict, List, Union
 
 
 class Assembler:
 
-    def __init__(self, remote_node: thymiodirect.connection.RemoteNode, src: str):
+    def __init__(self, remote_node: RemoteNode, src: str):
         """
         Construct a new Assembler object.
 
@@ -400,7 +400,7 @@ class Assembler:
 
 def test(remote_node=None):
     if remote_node is None:
-        remote_node = thymiodirect.connection.RemoteNode()
+        remote_node = RemoteNode()
 
     src = """foo:
     equ 5

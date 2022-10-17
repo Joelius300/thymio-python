@@ -15,8 +15,8 @@ import threading
 import time
 from typing import List
 
-from thymiodirect.connection import Connection
-from thymiodirect.assembler import Assembler
+from .connection import Connection
+from .assembler import Assembler
 
 
 class Thymio:

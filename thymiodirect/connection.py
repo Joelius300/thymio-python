@@ -9,13 +9,14 @@
 Communication with Thymio via serial port or tcp
 Author: Yves Piguet, EPFL
 """
+from __future__ import annotations
 
 import asyncio
 import threading
 import time
 from typing import Awaitable, Callable, List, Optional, Set, Tuple
 
-from thymiodirect.message import Message
+from .message import Message
 
 
 class InputThread(threading.Thread):
@@ -338,7 +339,7 @@ class Connection:
             return devices[0]
 
     @staticmethod
-    def serial(port: Optional[str] = None, **kwargs) -> "Connection":
+    def serial(port: Optional[str] = None, **kwargs) -> Connection:
         """Create Thymio object with a serial connection.
         """
         import serial  # pip3 install pyserial
@@ -348,7 +349,7 @@ class Connection:
         return th
 
     @staticmethod
-    def tcp(host: Optional[str] = "127.0.0.1", port: Optional[int] = 33333, **kwargs) -> "Connection":
+    def tcp(host: Optional[str] = "127.0.0.1", port: Optional[int] = 33333, **kwargs) -> Connection:
         """Create Thymio object with a TCP connection.
         """
         import socket
@@ -371,7 +372,7 @@ class Connection:
         return th
 
     @staticmethod
-    def null(host_node_id: Optional[int] = 1, **kwargs) -> "Connection":
+    def null(host_node_id: Optional[int] = 1, **kwargs) -> Connection:
         """Create Thymio object without connection.
         """
         import io

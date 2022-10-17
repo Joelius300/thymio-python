@@ -64,5 +64,5 @@ def obs(node_id):
 th.set_variable_observer(id, obs)
 """
 
-from thymiodirect.connection import Connection
-from thymiodirect.thymio import Thymio
+from .connection import Connection
+from .thymio import Thymio

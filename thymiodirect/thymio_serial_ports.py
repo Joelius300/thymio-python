@@ -77,7 +77,7 @@ class ThymioSerialPort:
         except ValueError:
             # Probably thymiodirect.thymio_serial_ports isn't supported,
             # e.g. on macOS 11 as of December 2020
-            from thymiodirect.connection import Connection
+            from .connection import Connection
             ports = [
                 ThymioSerialPort(device=device)
                 for device in Connection.serial_ports()
