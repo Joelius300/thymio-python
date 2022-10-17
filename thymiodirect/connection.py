@@ -14,6 +14,7 @@ from __future__ import annotations
 import asyncio
 import threading
 import time
+from asyncio import AbstractEventLoop
 from typing import Awaitable, Callable, List, Optional, Set, Tuple
 
 from .message import Message
@@ -191,7 +192,7 @@ class Connection:
                  host_node_id=1,
                  refreshing_rate=None, refreshing_coverage=None, discover_rate=None,
                  debug=False,
-                 loop=None):
+                 loop: AbstractEventLoop = None):
         self.has_own_loop = loop is None
         if self.has_own_loop:
             self.loop = asyncio.new_event_loop()

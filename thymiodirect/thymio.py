@@ -170,6 +170,12 @@ class Thymio:
     def disconnect(self):
         self.thymio_proxy.shutdown()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.disconnect()
+
     def nodes(self) -> set[int]:
         """Get set of ids of node currentlty connected.
         """
