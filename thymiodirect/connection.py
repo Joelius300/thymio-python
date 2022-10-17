@@ -216,9 +216,9 @@ class Connection:
         self.shutting_down = False
         self.tasks = set()
         self.refreshing_timeout = None
-        self.refreshing_data_coverage = None    # or set of variables to fetch
-        self.refreshing_data_span = None   # or (offset, length) (based on refreshing_data_coverage)
-        self.refreshing_triggers = []   # threading.Event
+        self.refreshing_data_coverage = None  # or set of variables to fetch
+        self.refreshing_data_span = None  # or (offset, length) (based on refreshing_data_coverage)
+        self.refreshing_triggers = []  # threading.Event
         if refreshing_rate is not None:
             self.set_refreshing_rate(refreshing_rate)
         if refreshing_coverage is not None:
@@ -253,6 +253,7 @@ class Connection:
                         await asyncio.sleep(discover_rate)
                     except asyncio.CancelledError:
                         break
+
             self.tasks.add(self.loop.create_task(discover()))
 
     def close(self) -> None:
@@ -278,8 +279,10 @@ class Connection:
     def run_tasks(self) -> None:
         """Run asyncio loop until all the tasks have finished.
         """
+
         async def all_tasks():
             return await asyncio.gather(*self.tasks, return_exceptions=True)
+
         self.loop.run_until_complete(all_tasks())
         if self.has_own_loop:
             self.loop.stop()
@@ -455,8 +458,8 @@ class Connection:
                         change = True
                 elif msg.device_info == Message.DEVICE_INFO_THYMIO2_RF_SETTINGS:
                     if (remote_node.rf_network_id != msg.network_id
-                        or remote_node.rf_node_id != msg.node_id
-                        or remote_node.rf_channel != msg.channel):
+                            or remote_node.rf_node_id != msg.node_id
+                            or remote_node.rf_channel != msg.channel):
                         remote_node.rf_network_id = msg.network_id
                         remote_node.rf_node_id = msg.node_id
                         remote_node.rf_channel = msg.channel
@@ -490,9 +493,11 @@ class Connection:
                                     else:
                                         if self.refreshing_data_span is None:
                                             # update now that remote_node's variables are known
-                                            self.refreshing_data_span = remote_node.data_span_for_variables(self.refreshing_data_coverage)
+                                            self.refreshing_data_span = remote_node.data_span_for_variables(
+                                                self.refreshing_data_coverage)
                                         if self.refreshing_data_span[1] > 0:
-                                            self.get_variables(source_node, self.refreshing_data_span[0], self.refreshing_data_span[1])
+                                            self.get_variables(source_node, self.refreshing_data_span[0],
+                                                               self.refreshing_data_span[1])
                                 if self.shutting_down:
                                     break
                                 # assume disconnection upon timeout
@@ -619,9 +624,9 @@ class Connection:
         """Send a SET_VARIABLES message.
         """
         payload = Message.uint16array_to_bytes([
-            target_node_id,
-            chunk_offset
-        ] + chunk)
+                                                   target_node_id,
+                                                   chunk_offset
+                                               ] + chunk)
         msg = Message(Message.ID_SET_VARIABLES, self.host_node_id, payload)
         self.send(msg)
 
@@ -705,9 +710,9 @@ class Connection:
         while i < size:
             size_chunk = min(size - i, 256)
             payload = Message.uint16array_to_bytes([
-                target_node_id,
-                address + i
-            ] + bytecode[i:i + size_chunk])
+                                                       target_node_id,
+                                                       address + i
+                                                   ] + bytecode[i:i + size_chunk])
             msg = Message(Message.ID_SET_BYTECODE, self.host_node_id, payload)
             self.send(msg)
             i += size_chunk

@@ -185,10 +185,12 @@ class Assembler:
             def register(fun):
                 self.instr[instr]["to_code"] = fun
                 return fun
+
             return register
 
         @def_to_code("dc")
-        def to_code_dc(pc: int, args: List[Union[int, str]], label: str, defs: Dict[str, int], phase: int, line: int) -> List[int]:
+        def to_code_dc(pc: int, args: List[Union[int, str]], label: str, defs: Dict[str, int], phase: int, line: int) -> \
+        List[int]:
             return [
                 resolve_symbol(a, defs, phase == 1) & 0xffff
                 for a in args
@@ -258,9 +260,9 @@ class Assembler:
         def to_code_jump_if_not(pc, args, label, defs, phase, line):
             test_instr = self.instr[args[0]] if args[0] in self.instr else None
             if (test_instr is None
-                or "code" not in test_instr
-                or len(test_instr["code"]) != 1
-                or (test_instr["code"][0] & 0xf000) != 0x8000):
+                    or "code" not in test_instr
+                    or len(test_instr["code"]) != 1
+                    or (test_instr["code"][0] & 0xf000) != 0x8000):
                 raise Exception(f'Unknown op "{args[0]}" for jump.if.not (line {line})')
             arg = resolve_symbol(args[1], defs, phase == 1)
             return [0xa000 | (test_instr["code"][0] & 0xff), (arg - pc) & 0xffff]
@@ -269,9 +271,9 @@ class Assembler:
         def to_code_do_jump_when_not(pc, args, label, defs, phase, line):
             test_instr = self.instr[args[0]] if args[0] in self.instr else None
             if (test_instr is None
-                or "code" not in test_instr
-                or len(test_instr["code"]) != 1
-                or (test_instr["code"][0] & 0xf000) != 0x8000):
+                    or "code" not in test_instr
+                    or len(test_instr["code"]) != 1
+                    or (test_instr["code"][0] & 0xf000) != 0x8000):
                 raise Exception(f'Unknown op "{args[0]}" for do.jump.when.not (line {line})')
             arg = resolve_symbol(args[1], defs, phase == 1)
             return [0xa100 | (test_instr["code"][0] & 0xff), (arg - pc) & 0xffff]
@@ -280,9 +282,9 @@ class Assembler:
         def to_code_dont_jump_when_not(pc, args, label, defs, phase, line):
             test_instr = self.instr[args[0]] if args[0] in self.instr else None
             if (test_instr is None
-                or "code" not in test_instr
-                or len(test_instr["code"]) != 1
-                or (test_instr["code"][0] & 0xf000) != 0x8000):
+                    or "code" not in test_instr
+                    or len(test_instr["code"]) != 1
+                    or (test_instr["code"][0] & 0xf000) != 0x8000):
                 raise Exception(f'Unknown op "{args[0]}" for dont.jump.when.not (line {line})')
             arg = resolve_symbol(args[1], defs, phase == 1)
             return [0xa300 | (test_instr["code"][0] & 0xff), (arg - pc) & 0xffff]
@@ -378,7 +380,7 @@ class Assembler:
                             args_split = []
 
                     if instr_name not in self.instr:
-                        raise Exception(f"Unknown instruction {instr_name} (line {i+1})")
+                        raise Exception(f"Unknown instruction {instr_name} (line {i + 1})")
                     instr = self.instr[instr_name]
                     if "code" in instr:
                         bytecode += instr["code"]
@@ -393,7 +395,7 @@ class Assembler:
                     continue
 
                 print("line", line)
-                raise Exception(f"Syntax error (line {i+1})")
+                raise Exception(f"Syntax error (line {i + 1})")
 
         return bytecode
 

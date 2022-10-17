@@ -51,7 +51,7 @@ class ThymioSerialPort:
     def __str__(self):
         return ("Serial port" if self.port is None
                 else "Thymio wireless" if self.wireless
-                else "Thymio")
+        else "Thymio")
 
     def __repr__(self):
         return f"ThymioSerialPort(port={repr(self.port)}, device={repr(self.device)}, wireless={self.wireless})"

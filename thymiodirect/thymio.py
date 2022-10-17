@@ -153,10 +153,12 @@ class Thymio:
     def connect(self, progress=None, delay=0.1):
         """Connect to Thymio or dongle.
         """
+
         def thymio_thread():
             asyncio.set_event_loop(asyncio.new_event_loop())
             self.thymio_proxy = self._ThymioProxy(self)
             self.thymio_proxy.run()
+
         self.thread = threading.Thread(target=thymio_thread)
         self.thread.start()
         if progress is None:
@@ -253,7 +255,7 @@ class Thymio:
 
     def device_names(self):
         """Return a dict of node_id associated to their respective device name."""
-        return {node_id:self.thymio_proxy.connection.remote_nodes[node_id].device_name
+        return {node_id: self.thymio_proxy.connection.remote_nodes[node_id].device_name
                 for node_id in self.nodes()}
 
     def device_name(self, node_id: int):
