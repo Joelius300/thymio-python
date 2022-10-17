@@ -10,6 +10,8 @@ Communication with Thymio via serial port or tcp
 Author: Yves Piguet, EPFL
 """
 
+from __future__ import annotations
+
 import asyncio
 import threading
 import time
@@ -31,7 +33,7 @@ class Thymio:
         functions from asyncio coroutines.
         """
 
-        def __init__(self, thymio: "Thymio"):
+        def __init__(self, thymio: Thymio):
             """
             Construct a new __ThymioProxy object.
 
@@ -166,17 +168,17 @@ class Thymio:
     def disconnect(self):
         self.thymio_proxy.shutdown()
 
-    def nodes(self):
+    def nodes(self) -> set[int]:
         """Get set of ids of node currentlty connected.
         """
         return self.thymio_proxy.nodes if self.thymio_proxy else set()
 
-    def first_node(self):
+    def first_node(self) -> int:
         """Get id of first node connected.
         """
         return next(iter(self.nodes()))
 
-    def variables(self, node_id):
+    def variables(self, node_id: int):
         """Get list of variable names.
         """
         node = self.thymio_proxy.connection.remote_nodes[node_id]
@@ -254,6 +256,6 @@ class Thymio:
         return {node_id:self.thymio_proxy.connection.remote_nodes[node_id].device_name
                 for node_id in self.nodes()}
 
-    def device_name(self, node_id):
+    def device_name(self, node_id: int):
         """Return the device name for the given node_id."""
         return self.thymio_proxy.connection.remote_nodes[node_id].device_name
