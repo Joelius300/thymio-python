@@ -17,6 +17,8 @@ import time
 from asyncio import AbstractEventLoop
 from typing import Awaitable, Callable, List, Optional, Set, Tuple
 
+from serial import PortNotOpenError
+
 from .message import Message
 
 
@@ -516,6 +518,9 @@ class Connection:
                                     del self.remote_nodes[node_id]
                             except asyncio.CancelledError:
                                 break
+                            except PortNotOpenError as error:
+                                if not self.shutting_down:
+                                    raise error  # do not care about closed serial port during disconnect
 
                     self.tasks.add(self.loop.create_task(do_refresh()))
         elif msg.id == Message.ID_VARIABLES:
