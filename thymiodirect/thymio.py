@@ -123,6 +123,27 @@ class Thymio:
             """
             self.connection.shutdown()
 
+    class Node:
+        def __init__(self, node_id: int, thymio_proxy: Thymio._ThymioProxy):
+            self.node_id = node_id
+            self._thymio_proxy = thymio_proxy
+
+        def __getitem__(self, name):
+            try:
+                val = self._thymio_proxy.connection.get_var_array(self.node_id, name)
+                return val if len(val) != 1 else val[0]
+            except KeyError:
+                raise KeyError(name)
+
+        def __setitem__(self, name, val):
+            try:
+                if isinstance(val, list):
+                    self._thymio_proxy.connection.set_var_array(self.node_id, name, val)
+                else:
+                    self._thymio_proxy.connection.set_var(self.node_id, name, val)
+            except KeyError:
+                raise KeyError(name)
+
     def __init__(self,
                  use_tcp=False,
                  serial_port=None,
@@ -149,6 +170,7 @@ class Thymio:
         self.thymio_proxy = None
         self.variable_observers = {}
         self.user_event_listeners = {}
+
 
     def connect(self, progress=None, delay=0.1):
         """Connect to Thymio or dongle.
@@ -205,27 +227,7 @@ class Thymio:
         return node.var_offset[var_name]
 
     def __getitem__(self, key):
-        class Node:
-            def __init__(self_node, node_id):
-                self_node.node_id = node_id
-
-            def __getitem__(self_node, name):
-                try:
-                    val = self.thymio_proxy.connection.get_var_array(self_node.node_id, name)
-                    return val if len(val) != 1 else val[0]
-                except KeyError:
-                    raise KeyError(name)
-
-            def __setitem__(self_node, name, val):
-                try:
-                    if isinstance(val, list):
-                        self.thymio_proxy.connection.set_var_array(self_node.node_id, name, val)
-                    else:
-                        self.thymio_proxy.connection.set_var(self_node.node_id, name, val)
-                except KeyError:
-                    raise KeyError(name)
-
-        return Node(key)
+        return Thymio.Node(key, self.thymio_proxy)
 
     def set_variable_observer(self, node_id, observer):
         self.variable_observers[node_id] = observer
