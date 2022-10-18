@@ -177,7 +177,7 @@ class Thymio:
         self.disconnect()
 
     def nodes(self) -> set[int]:
-        """Get set of ids of node currentlty connected.
+        """Get set of ids of node currently connected.
         """
         return self.thymio_proxy.nodes if self.thymio_proxy else set()
 
