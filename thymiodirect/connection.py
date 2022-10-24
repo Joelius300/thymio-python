@@ -320,7 +320,8 @@ class Connection:
         elif sys.platform == "win32":
             import subprocess
             import re
-            mode_output = subprocess.check_output("mode", shell=True).decode()
+            mode_output = subprocess.check_output("mode", shell=True).decode(errors='ignore')
+
             devices = [
                 re.search(r"(COM\d+):", line).groups()[0]
                 for line in mode_output.split("\n")
