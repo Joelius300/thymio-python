@@ -1,8 +1,8 @@
 import time
 from typing import Optional
 
-from .thymio_observer import ThymioObserver
 from .thymio import Thymio
+from .thymio_observer import ThymioObserver
 
 
 class SingleSerialThymioRunner:
@@ -15,6 +15,7 @@ class SingleSerialThymioRunner:
 
     SingleSerialThymioRunner({BUTTON_CENTER, PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT}, HandAvoider(), 0.1).run()
     """
+
     def __init__(self,
                  refreshing_coverage: set,
                  observer: ThymioObserver,

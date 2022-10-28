@@ -39,6 +39,7 @@ class ThymioObserver(ABC):
                 print("Center button pressed")
                 self.stop()
     """
+
     def __init__(self):
         self.thymio: Thymio = None
         self.th: Thymio.Node = None
