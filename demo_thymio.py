@@ -80,6 +80,7 @@ if __name__ == "__main__":
     prox_prev = 0
     done = False
 
+    # this example has also been implemented with the simplified API using ThymioObserver in hand_avoider.py
     def obs(node_id):
         global prox_prev, done
         prox = (th[node_id]["prox.horizontal"][5] - th[node_id]["prox.horizontal"][2]) // 10
