@@ -80,7 +80,7 @@ class Thymio:
                     user_event_listener = self.thymio.user_event_listeners[node_id]
                     user_event_listener(node_id, event_id, event_args)
 
-            def on_comm_error(error: Exception) -> None:
+            def on_comm_error(error: str) -> None:
                 """
                 Forward error raised when communicating with the Thymio.
                 """
@@ -106,6 +106,7 @@ class Thymio:
                 except Exception as error:
                     if iter > 0:
                         on_comm_error("open: " + str(error))
+                        return
                     else:
                         # give some time if the connection was closed immediately before
                         time.sleep(0.2)
