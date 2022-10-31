@@ -47,9 +47,8 @@ class SingleSerialThymioRunner:
 
             id = self.thymio.first_node()
             print_thymio_functions_events(self.thymio, id)
-            self.observer.set_thymio_node(self.thymio, id)
 
-            self.observer.run()  # blocks until done
+            self.observer.run(self.thymio, id)  # blocks until done
 
 
 def print_thymio_functions_events(th: Thymio, node_id: int):

@@ -312,7 +312,7 @@ class Assembler:
                 raise Exception(f"Subroutine address out of range (line {line})")
             return [0xd000 | arg & 0xfff]
 
-    def node_definitions(self) -> None:
+    def node_definitions(self) -> dict:
         """Create definition dict based on node variables and native functions.
         """
 

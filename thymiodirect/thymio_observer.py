@@ -13,7 +13,7 @@ class ThymioObserver(ABC):
     -------
 
     from thymiodirect import ThymioObserver
-    from thymiodirect.thymio_constants import PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT, BUTTON_CENTER
+    from thymiodirect.thymio_constants import PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT, BUTTON_CENTER, LEDS_TOP
 
 
     class HandAvoider(ThymioObserver):
@@ -29,11 +29,11 @@ class ThymioObserver(ABC):
                 self.th[MOTOR_RIGHT] = prox
                 print(prox)
                 if prox > 5:
-                    self.th["leds.top"] = [0, 32, 0]
+                    self.th[LEDS_TOP] = [0, 32, 0]
                 elif prox < -5:
-                    self.th["leds.top"] = [32, 32, 0]
+                    self.th[LEDS_TOP] = [32, 32, 0]
                 elif abs(prox) < 3:
-                    self.th["leds.top"] = [0, 0, 32]
+                    self.th[LEDS_TOP] = [0, 0, 32]
                 self.prox_prev = prox
             if self.th[BUTTON_CENTER]:
                 print("Center button pressed")
@@ -41,6 +41,8 @@ class ThymioObserver(ABC):
     """
 
     def __init__(self):
+        # these three are only set when the observer is started but to avoid warning etc. when implementing _update
+        # they're typed as their respective non-nullable types.
         self.thymio: Thymio = None
         self.th: Thymio.Node = None
         self._node_id: int = None
@@ -53,7 +55,7 @@ class ThymioObserver(ABC):
         """
         return self._done
 
-    def set_thymio_node(self, thymio: Thymio, node_id: int):
+    def _set_thymio_node(self, thymio: Thymio, node_id: int):
         """
         Sets the thymio node this observer runs on
         """
@@ -61,12 +63,12 @@ class ThymioObserver(ABC):
         self.th = thymio[node_id]
         self._node_id = node_id
 
-    def run(self):
+    def run(self, thymio: Thymio, node_id: int):
         """
         Run the observer until it is stopped or interrupted (blocking).
-        Before running the observer, you need to set the thymio node (set_thymio_node)!
         """
-        self.start()
+
+        self.start(thymio, node_id)
         self.block_until_done()
 
     def _observe(self, node_id):
@@ -88,12 +90,12 @@ class ThymioObserver(ABC):
     def _reset(self):
         self._done = False
 
-    def start(self):
+    def start(self, thymio: Thymio, node_id: int):
         """
         Registers and enables the observer without blocking (returns immediately).
-        Before starting the observer, you need to set the thymio node (set_thymio_node)!
         """
         self._reset()
+        self._set_thymio_node(thymio, node_id)
         self.thymio.set_variable_observer(self._node_id, self._observe)
 
     def block_until_done(self):

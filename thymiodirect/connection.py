@@ -156,7 +156,7 @@ class RemoteNode:
         offset = self.var_offset[name]
         self.var_data[offset:offset + len(val)] = val
 
-    def set_var_data(self, offset: int, data: List[int]) -> int:
+    def set_var_data(self, offset: int, data: List[int]) -> None:
         """Set values in the variable data array.
         """
         self.var_data[offset:offset + len(data)] = data
@@ -290,10 +290,10 @@ class Connection:
         if self.has_own_loop:
             self.loop.stop()
 
-    def __del__(self) -> None:
+    def __del__(self):
         self.shutdown()
 
-    def __enter__(self) -> None:
+    def __enter__(self):
         return self
 
     def __exit__(self, type, value, traceback) -> None:

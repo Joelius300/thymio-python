@@ -15,7 +15,7 @@ from __future__ import annotations
 import asyncio
 import threading
 import time
-from typing import List
+from typing import List, Callable
 
 from .connection import Connection
 from .assembler import Assembler
@@ -150,9 +150,9 @@ class Thymio:
                  serial_port=None,
                  host=None,
                  tcp_port=None,
-                 on_connect=None,
-                 on_disconnect=None,
-                 on_comm_error=None,
+                 on_connect: Callable[[int], None] = None,
+                 on_disconnect: Callable[[int], None] = None,
+                 on_comm_error: Callable[[str], None] = None,
                  refreshing_rate=0.1,
                  refreshing_coverage=None,
                  discover_rate=2,
@@ -165,13 +165,12 @@ class Thymio:
         self.on_disconnect_cb = on_disconnect
         self.on_comm_error = on_comm_error
         self.refreshing_rate = refreshing_rate
-        self.refreshing_coverage = refreshing_coverage
+        self.refreshing_coverage: dict = refreshing_coverage
         self.discover_rate = discover_rate
         self.loop = loop or asyncio.get_event_loop()
         self.thymio_proxy = None
-        self.variable_observers = {}
+        self.variable_observers: dict[int, Callable[[int], None]] = {}
         self.user_event_listeners = {}
-
 
     def connect(self, progress=None, delay=0.1):
         """Connect to Thymio or dongle.
@@ -230,7 +229,7 @@ class Thymio:
     def __getitem__(self, key):
         return Thymio.Node(key, self.thymio_proxy)
 
-    def set_variable_observer(self, node_id, observer):
+    def set_variable_observer(self, node_id: int, observer: Callable[[int], None]):
         self.variable_observers[node_id] = observer
 
     def set_user_event_listener(self, node_id, listener):
