@@ -1,3 +1,9 @@
+# This file is part of thymiodirect.
+# Copyright (c) 2022, Joel L.
+# Author: Joel L.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 PROXIMITY_FRONT_BACK = "prox.horizontal"
 PROXIMITY_GROUND_AMBIENT = "prox.ground.ambiant"
 PROXIMITY_GROUND_REFLECTED = "prox.ground.reflected"

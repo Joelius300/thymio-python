@@ -1,3 +1,9 @@
+# This file is part of thymiodirect.
+# Copyright (c) 2022, Joel L.
+# Author: Joel L.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 import time
 from typing import Optional
 
