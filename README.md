@@ -33,7 +33,8 @@ python3 -m pip install dist/ThymioDirect_EPFL_Mobots-0.1.0-py3-none-any.whl
 ## License
 
 Copyright 2020 ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE,
-Miniature Mobile Robots group, Switzerland
+Miniature Mobile Robots group, Switzerland \
+Copyright 2022 Joel L.
 
 The module is provided under the BSD-3-Clause license.
 Please see file LICENSE for details.
