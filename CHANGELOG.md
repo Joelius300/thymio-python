@@ -2,7 +2,28 @@
 
 Notable changes of thymiodirect. Release versions refer to [https://pypi.org/project/thymiodirect/].
 
-## [Unreleased]
+## [Unreleased] - 2022-11-07 - Joel L.
+
+- Add "modern" `pip install .` instructions to readme
+- Add type hints for various methods and fields
+- Restructure modules in a way that allows referencing the classes both directly without installation and as installed package
+- Add `with` capabilities to Tyhmio for more robust connection teardown handling and cancellation handling
+- Handle encoding errors during serial port discovery
+- Handle various exceptions e.g. during shutdown
+- Add various constants for sensor access
+- Add new observer API (`ThymioObserver`) for simplified variable observer implementations without global data and redundancies
+- Add `SingleSerialThymioRunner` to get started with very minimal boilerplate for the common scenario of one thyimo connected via USB dongle or cable
+- Code cleanup
+
+## [Unreleased] - 2021-05-17 - Nicolas Despres
+
+- Code cleanup
+- Progress callback during connection
+- Prevent proxy shutdown from being called twice
+- New method `thymio.device_names()` to get a dictionary of node_ids and their respective device names
+- New method `thymio.device_name(node_id)` to get the device name of a certai node
+
+## [Unreleased] - 2020-11-26
 
 - Clean teardown of event loops upon termination.
 - Implementation overview in readme.md.
