@@ -5,6 +5,8 @@ with its native binary protocol via a serial port (virtual port over
 a wired USB or wireless USB dongle) or a TCP port (asebaswitch or Thymio
 simulator).
 
+Check the `hand_avoider.py` example to get started quickly or look at the demos to understand how the library works at a lower level.
+
 ## Installing the package
 
 Create a virtual environment and activate it (e.g. with pyenv-virtualenv: `pyenv virtualenv thymio && pyenv activate thymio`).

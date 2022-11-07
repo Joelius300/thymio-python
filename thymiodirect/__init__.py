@@ -17,7 +17,7 @@ High level example
 -------
 
 from thymiodirect import ThymioObserver, SingleSerialThymioRunner
-from thymiodirect.thymio_constants import PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT, BUTTON_CENTER
+from thymiodirect.thymio_constants import PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT, BUTTON_CENTER, LEDS_TOP
 
 
 class HandAvoider(ThymioObserver):
@@ -33,11 +33,11 @@ class HandAvoider(ThymioObserver):
             self.th[MOTOR_RIGHT] = prox
             print(prox)
             if prox > 5:
-                self.th["leds.top"] = [0, 32, 0]
+                self.th[LEDS_TOP] = [0, 32, 0]
             elif prox < -5:
-                self.th["leds.top"] = [32, 32, 0]
+                self.th[LEDS_TOP] = [32, 32, 0]
             elif abs(prox) < 3:
-                self.th["leds.top"] = [0, 0, 32]
+                self.th[LEDS_TOP] = [0, 0, 32]
             self.prox_prev = prox
         if self.th[BUTTON_CENTER]:
             print("Center button pressed")
