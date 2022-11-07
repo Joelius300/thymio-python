@@ -1,6 +1,3 @@
-import time
-
-from thymio_python.thymiodirect import Thymio
 from thymiodirect import ThymioObserver, SingleSerialThymioRunner
 from thymiodirect.thymio_constants import PROXIMITY_FRONT_BACK, MOTOR_LEFT, MOTOR_RIGHT, BUTTON_CENTER, LEDS_TOP
 
